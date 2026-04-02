@@ -36,18 +36,18 @@ export default function Dashboard() {
     loadDumps().then((data) => { setThreads(data); setLoaded(true); });
   }, []);
 
-  // Timer
+  // Timer — continues counting past zero into overtime
   useEffect(() => {
-    if (isRunning && timeLeft > 0) {
+    if (isRunning) {
       intervalRef.current = setInterval(() => {
         setTimeLeft((t) => {
-          if (t <= 1) { clearInterval(intervalRef.current); setIsRunning(false); setTimerExpired(true); return 0; }
+          if (t <= 1 && !timerExpired) setTimerExpired(true);
           return t - 1;
         });
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [isRunning, timeLeft]);
+  }, [isRunning]);
 
   // Focus textarea
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function Dashboard() {
 
   const goToQuestion = (i) => {
     setShowHint(false); setCurrentQ(i); setPhase("writing");
-    if (!isRunning && timeLeft > 0) setIsRunning(true);
+    if (!isRunning) setIsRunning(true);
   };
 
   const resetAll = () => {
@@ -94,7 +94,8 @@ export default function Dashboard() {
 
   const elapsed = timerDuration - timeLeft;
   const answeredCount = answers.filter((a) => a.trim().length > 0).length;
-  const progress = timeLeft / timerDuration;
+  const progress = Math.max(0, timeLeft / timerDuration);
+  const overtime = timeLeft < 0 ? Math.abs(timeLeft) : 0;
 
   // Save
   const doSave = async (silent = false) => {
@@ -186,7 +187,7 @@ export default function Dashboard() {
     URL.revokeObjectURL(url);
   };
 
-  const timerColor = timeLeft < 60 ? "text-danger" : timeLeft < timerDuration * 0.25 ? "text-orange-600" : "text-warm-700";
+  const timerColor = timeLeft <= 0 ? "text-danger" : timeLeft < 60 ? "text-danger" : timeLeft < timerDuration * 0.25 ? "text-orange-600" : "text-warm-700";
 
   return (
     <div className={`min-h-screen bg-parchment font-serif text-warm-900 transition-opacity duration-700 ${fadeIn ? "opacity-100" : "opacity-0"}`}>
@@ -312,7 +313,9 @@ export default function Dashboard() {
           <div className="sticky top-0 bg-parchment z-10 pb-4 border-b border-warm-300 mb-8">
             <div className="flex justify-between items-center mb-2.5">
               <div className="flex items-center gap-3">
-                <span className={`font-mono text-[28px] font-bold tracking-widest ${timerColor}`}>{formatTime(timeLeft)}</span>
+                <span className={`font-mono text-[28px] font-bold tracking-widest ${timerExpired ? "text-danger" : timerColor}`}>
+                  {timerExpired ? `+${formatTime(overtime)}` : formatTime(timeLeft)}
+                </span>
                 {timerExpired && <span className="text-xs text-danger italic">Time's up — keep going or finish</span>}
               </div>
               <div className="flex items-center gap-4">
@@ -324,8 +327,8 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="h-[3px] bg-warm-300 rounded overflow-hidden">
-              <div className={`h-full rounded transition-all duration-1000 ${timeLeft < 60 ? "bg-danger" : timeLeft < timerDuration * 0.25 ? "bg-orange-600" : "bg-warm-500"}`}
-                style={{ width: `${(1 - progress) * 100}%` }} />
+              <div className={`h-full rounded transition-all duration-1000 ${timerExpired ? "bg-danger" : timeLeft < 60 ? "bg-danger" : timeLeft < timerDuration * 0.25 ? "bg-orange-600" : "bg-warm-500"}`}
+                style={{ width: `${Math.min((1 - progress) * 100, 100)}%` }} />
             </div>
             <div className="flex justify-center gap-2 mt-3">
               {QUESTIONS.map((_, i) => (
@@ -379,7 +382,7 @@ export default function Dashboard() {
           <div className="text-center mb-10">
             <div className="text-[11px] tracking-[4px] uppercase text-warm-500 font-mono mb-3">Your Brain Dump</div>
             <h2 className="text-[32px] font-normal mb-2 tracking-tight">The mess is yours.</h2>
-            <p className="text-sm text-warm-600 italic">{answeredCount} of 7 answered · {formatTime(elapsed)} spent thinking</p>
+            <p className="text-sm text-warm-600 italic">{answeredCount} of 7 answered · {formatTime(elapsed)} total time spent</p>
           </div>
 
           {QUESTIONS.map((q, i) => (
