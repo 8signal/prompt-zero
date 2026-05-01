@@ -17,7 +17,7 @@ export default async function Home() {
           Get your thinking out of your head before AI has a chance to reshape it.
         </h1>
         <p className="text-xl text-warm-700 leading-relaxed mb-10">
-          Here's the thing. AI is fast. Suspiciously fast. So fast that you'll start typing a half-baked
+          Okay, so, AI is fast. Suspiciously fast. So fast that you'll start typing a half-baked
           idea, watch it spit out something polished and confident, and forget you ever had a different
           vision in the first place. BadaBING, badaboom, your original thought? Gone. Replaced by
           something that sounds smart but isn't yours.
