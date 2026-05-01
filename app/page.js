@@ -9,11 +9,11 @@ export default async function Home() {
   return (
     <main className="max-w-3xl mx-auto px-6 py-16 md:py-24">
       <header className="mb-16">
-        <div className="flex items-baseline justify-between gap-4 mb-4 flex-wrap">
-          <p className="text-warm-500 text-sm uppercase tracking-widest">Prompt Zero</p>
-          <p className="text-warm-900 text-sm uppercase tracking-widest font-bold">Go forth. Prompt better.</p>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-warm-900 leading-tight mb-6">
+        <p className="text-warm-500 text-sm uppercase tracking-widest mb-10">Prompt Zero</p>
+        <p className="text-5xl md:text-8xl font-bold italic text-danger leading-none mb-10 tracking-tight">
+          Go forth.<br />Prompt better.
+        </p>
+        <h1 className="text-2xl md:text-3xl font-bold text-warm-900 leading-tight mb-6">
           Get your thinking out of your head before AI has a chance to reshape it.
         </h1>
         <p className="text-xl text-warm-700 leading-relaxed mb-10">
