@@ -61,6 +61,20 @@ export default async function Home() {
       </header>
 
       <section className="mb-16 border-t border-warm-300 pt-12">
+        <p className="text-warm-500 text-sm uppercase tracking-widest mb-3">A receipt, since you asked</p>
+        <p className="text-3xl md:text-4xl font-bold text-warm-900 leading-tight mb-4">
+          I get a week's worth of work done in 30 minutes instead of half a day.
+        </p>
+        <p className="text-lg text-warm-700 leading-relaxed">
+          That's not a marketing number. That's me. Same brain, same tools, same chatbot. The only
+          variable is whether I did Prompt Zero before opening the chat window. Half a day of
+          back-and-forth ("no, not like that," "closer, but," "okay try again") collapses into one
+          clean handoff because I figured out what I actually wanted before I asked. Compounding
+          weekly, this is the difference between drowning and surfing.
+        </p>
+      </section>
+
+      <section className="mb-16 border-t border-warm-300 pt-12">
         <h2 className="text-3xl font-bold text-warm-900 mb-6">Why Prompt Zero is awesome</h2>
         <div className="space-y-6 text-lg text-warm-700 leading-relaxed">
           <p>
