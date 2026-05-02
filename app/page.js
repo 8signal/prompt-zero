@@ -1,6 +1,23 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { QUESTIONS } from "@/lib/questions";
+import CopyButton from "@/components/CopyButton";
+
+const NINETY_FIVE_RULE = "Interview me until you have 95% confidence about what I actually want, not what you think I should want.";
+
+const QUESTIONS_PLAIN_TEXT = [
+  "The Seven Questions of Prompt Zero",
+  "by Ruben at 8 SIGNAL — promptzero.app",
+  "",
+  ...QUESTIONS.flatMap((q) => [
+    `${q.number}. ${q.title}`,
+    q.hint,
+    "",
+  ]),
+  "Bonus — The 95% Rule:",
+  "Paste this sentence at the top of any serious AI prompt, above the brain dump from the seven questions:",
+  `"${NINETY_FIVE_RULE}"`,
+].join("\n");
 
 export default async function Home() {
   const supabase = createClient();
@@ -70,6 +87,33 @@ export default async function Home() {
         </div>
       </section>
 
+      <section id="questions" className="mb-16 border-t border-warm-300 pt-12">
+        <h2 className="text-3xl font-bold text-warm-900 mb-4">The seven questions</h2>
+        <p className="text-lg text-warm-700 mb-6 leading-relaxed">
+          Look. If you don't want to use my little app, that's fine. Truly. (A little hurtful, but fine.)
+          Here are the questions. Grab them. Print them. Tape them to your monitor. Tattoo them on your
+          forearm. The whole point is the thinking, not the software.
+        </p>
+        <div className="mb-10">
+          <CopyButton
+            text={QUESTIONS_PLAIN_TEXT}
+            label="Copy all seven questions + the 95% Rule"
+            copiedLabel="Copied! Go forth."
+          />
+        </div>
+        <ol className="space-y-10">
+          {QUESTIONS.map((q) => (
+            <li key={q.number}>
+              <div className="flex gap-4 mb-3">
+                <span className="text-3xl font-bold text-warm-400 leading-none">{q.number}</span>
+                <h3 className="text-2xl font-bold text-warm-900 leading-tight">{q.title}</h3>
+              </div>
+              <p className="text-warm-700 leading-relaxed text-lg pl-12">{q.hint}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <section className="mb-16 border-t border-warm-300 pt-12">
         <p className="text-warm-500 text-sm uppercase tracking-widest mb-3">Bonus freebie</p>
         <h2 className="text-3xl md:text-4xl font-bold text-warm-900 mb-2 leading-tight">
@@ -85,9 +129,15 @@ export default async function Home() {
             whole conversation change.
           </p>
           <blockquote className="border-l-4 border-warm-900 bg-warm-100 pl-6 pr-4 py-5 text-xl text-warm-900 font-semibold not-italic">
-            Interview me until you have 95% confidence about what I actually want, not what you
-            think I should want.
+            {NINETY_FIVE_RULE}
           </blockquote>
+          <div>
+            <CopyButton
+              text={NINETY_FIVE_RULE}
+              label="Copy the 95% Rule"
+              copiedLabel="Copied! Now go interrogate a chatbot."
+            />
+          </div>
           <p>
             Why it works. The default behavior of every chatbot on Earth is to assume it knows
             what you want and start producing. The 95% Rule flips it. Instead of generating, it
@@ -96,26 +146,34 @@ export default async function Home() {
             on every serious prompt.
           </p>
         </div>
-      </section>
 
-      <section id="questions" className="mb-16 border-t border-warm-300 pt-12">
-        <h2 className="text-3xl font-bold text-warm-900 mb-4">The seven questions</h2>
-        <p className="text-lg text-warm-700 mb-10 leading-relaxed">
-          Look. If you don't want to use my little app, that's fine. Truly. (A little hurtful, but fine.)
-          Here are the questions. Grab them. Print them. Tape them to your monitor. Tattoo them on your
-          forearm. The whole point is the thinking, not the software.
-        </p>
-        <ol className="space-y-10">
-          {QUESTIONS.map((q) => (
-            <li key={q.number}>
-              <div className="flex gap-4 mb-3">
-                <span className="text-3xl font-bold text-warm-400 leading-none">{q.number}</span>
-                <h3 className="text-2xl font-bold text-warm-900 leading-tight">{q.title}</h3>
-              </div>
-              <p className="text-warm-700 leading-relaxed text-lg pl-12">{q.hint}</p>
-            </li>
-          ))}
-        </ol>
+        <div className="mt-10 bg-warm-100 border-l-4 border-warm-400 p-6">
+          <p className="text-warm-500 text-sm uppercase tracking-widest mb-2">Where to drop it</p>
+          <p className="text-lg text-warm-700 leading-relaxed mb-3">
+            Paste the 95% Rule at the very <strong className="text-warm-900">top</strong> of your
+            prompt, before you paste in the brain dump from the seven questions. Like this:
+          </p>
+          <pre className="bg-parchment border border-warm-300 p-4 text-sm text-warm-900 font-mono whitespace-pre-wrap leading-relaxed">
+{`[95% Rule sentence]
+
+Here's my brain dump from Prompt Zero:
+
+1. What I'm actually trying to accomplish: ...
+2. Why this matters: ...
+3. What "done" looks like: ...
+4. What "wrong" looks like: ...
+5. What I already know that I haven't written down: ...
+6. The pieces: ...
+7. The hard part: ...
+
+Now, before you generate anything, follow the rule above.`}
+          </pre>
+          <p className="text-warm-700 leading-relaxed mt-4">
+            The 95% Rule on top sets the behavior. The seven-question brain dump underneath gives the
+            AI the raw material. Together they turn a chatbot into something that actually thinks
+            with you instead of at you.
+          </p>
+        </div>
       </section>
 
       <section className="border-t border-warm-300 pt-12 mb-12">
