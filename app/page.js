@@ -70,6 +70,34 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="mb-16 border-t border-warm-300 pt-12">
+        <p className="text-warm-500 text-sm uppercase tracking-widest mb-3">Bonus freebie</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-warm-900 mb-2 leading-tight">
+          The 95% Rule:
+        </h2>
+        <p className="text-2xl md:text-3xl font-bold italic text-danger leading-tight mb-8">
+          Stop guessing. Start interviewing. 95% or bust.
+        </p>
+        <div className="space-y-5 text-lg text-warm-700 leading-relaxed">
+          <p>
+            The 95% Rule is one sentence you paste into your prompt. That's it. That's the rule.
+            Copy it, paste it at the top of whatever you're about to ask the AI, and watch the
+            whole conversation change.
+          </p>
+          <blockquote className="border-l-4 border-warm-900 bg-warm-100 pl-6 pr-4 py-5 text-xl text-warm-900 font-semibold not-italic">
+            Interview me until you have 95% confidence about what I actually want, not what you
+            think I should want.
+          </blockquote>
+          <p>
+            Why it works. The default behavior of every chatbot on Earth is to assume it knows
+            what you want and start producing. The 95% Rule flips it. Instead of generating, it
+            asks. Instead of guessing, it interrogates. You go from "AI gave me a thing I have
+            to fix" to "AI made me sharper before it produced anything." Free upgrade. Use it
+            on every serious prompt.
+          </p>
+        </div>
+      </section>
+
       <section id="questions" className="mb-16 border-t border-warm-300 pt-12">
         <h2 className="text-3xl font-bold text-warm-900 mb-4">The seven questions</h2>
         <p className="text-lg text-warm-700 mb-10 leading-relaxed">
