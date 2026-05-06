@@ -25,6 +25,7 @@ export default function Dashboard() {
   const [isSaving, setIsSaving] = useState(false);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const autoSaved = useRef(false);
+  const currentDumpId = useRef(null);
   const textareaRef = useRef(null);
   const intervalRef = useRef(null);
   const router = useRouter();
@@ -67,6 +68,7 @@ export default function Dashboard() {
     setTimeLeft(timerDuration); setPhase("writing"); setIsRunning(true);
     setCurrentQ(0); setAnswers(Array(7).fill("")); setTimerExpired(false);
     setSaveFeedback(""); autoSaved.current = false;
+    currentDumpId.current = null;
   }, [timerDuration]);
 
   const updateAnswer = (val) => {
@@ -90,6 +92,7 @@ export default function Dashboard() {
     setCurrentQ(0); setAnswers(Array(7).fill("")); setTimerExpired(false);
     setShowHint(false); setSaveFeedback(""); clearInterval(intervalRef.current);
     autoSaved.current = false;
+    currentDumpId.current = null;
   };
 
   const elapsed = timerDuration - timeLeft;
@@ -106,8 +109,11 @@ export default function Dashboard() {
     try {
       const outcome = answers[0]?.trim();
       const title = outcome ? (outcome.length > 60 ? outcome.slice(0, 57) + "..." : outcome) : `Brain dump — ${new Date().toLocaleDateString()}`;
-      const result = await saveDump({ title, answers, timeSpent: formatTime(elapsed), answeredCount });
+      const result = currentDumpId.current
+        ? await updateDump(currentDumpId.current, { title, answers, answeredCount })
+        : await saveDump({ title, answers, timeSpent: formatTime(elapsed), answeredCount });
       if (result) {
+        currentDumpId.current = result.id;
         const fresh = await loadDumps();
         setThreads(fresh);
         if (!silent) { setSaveFeedback("Saved"); setTimeout(() => setSaveFeedback(""), 2000); }
