@@ -183,9 +183,8 @@ export default function Dashboard() {
 
   const exportText = () => {
     let text = "PROMPT ZERO — Brain Dump\n========================\n\n";
-    text += `The 95% Rule (paste this above the brain dump in any AI prompt):\n"${NINETY_FIVE_RULE}"\n\n---\n\n`;
     QUESTIONS.forEach((q, i) => { text += `${q.number}. ${q.title}\n${answers[i] || "(skipped)"}\n\n`; });
-    text += "---\nGenerated with Prompt Zero. Concept by Nate Jones.\n";
+    text += `${NINETY_FIVE_RULE}\n\n---\nGenerated with Prompt Zero. Concept by Nate Jones.\n`;
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a"); a.href = url; a.download = "prompt-zero-braindump.txt"; a.click();
