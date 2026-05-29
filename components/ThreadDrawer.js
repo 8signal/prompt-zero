@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { QUESTIONS, formatDate } from "@/lib/questions";
+import { QUESTIONS, formatDate, buildClipboardPayload } from "@/lib/questions";
 
 export default function ThreadDrawer({ thread, onClose, onSave, onDelete }) {
   const [editing, setEditing] = useState(null);
@@ -39,11 +39,7 @@ export default function ThreadDrawer({ thread, onClose, onSave, onDelete }) {
   };
 
   const copyThread = async () => {
-    let text = "";
-    QUESTIONS.forEach((q, i) => {
-      if (answers[i]?.trim()) text += `${q.number}. ${q.title}\n${answers[i].trim()}\n\n`;
-    });
-    text = text.trim();
+    const text = buildClipboardPayload(answers);
     if (!text) { setCopyFeedback("Nothing to copy"); setTimeout(() => setCopyFeedback(""), 2000); return; }
     try {
       await navigator.clipboard.writeText(text);

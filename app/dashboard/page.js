@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createClient } from "@/lib/supabase-browser";
 import { loadDumps, loadDump, saveDump, updateDump, deleteDump } from "@/lib/dumps";
-import { QUESTIONS, TIMER_OPTIONS, formatTime, formatDate } from "@/lib/questions";
+import { QUESTIONS, TIMER_OPTIONS, formatTime, formatDate, buildClipboardPayload, NINETY_FIVE_RULE } from "@/lib/questions";
 import { useRouter } from "next/navigation";
 import ThreadDrawer from "@/components/ThreadDrawer";
 
@@ -165,9 +165,7 @@ export default function Dashboard() {
 
   // Clipboard
   const copyToClipboard = async () => {
-    let text = "";
-    QUESTIONS.forEach((q, i) => { if (answers[i]?.trim()) text += `${q.number}. ${q.title}\n${answers[i].trim()}\n\n`; });
-    text = text.trim();
+    const text = buildClipboardPayload(answers);
     if (!text) { setCopyFeedback("Nothing to copy"); setTimeout(() => setCopyFeedback(""), 2000); return; }
     try {
       await navigator.clipboard.writeText(text);
@@ -185,6 +183,7 @@ export default function Dashboard() {
 
   const exportText = () => {
     let text = "PROMPT ZERO — Brain Dump\n========================\n\n";
+    text += `The 95% Rule (paste this above the brain dump in any AI prompt):\n"${NINETY_FIVE_RULE}"\n\n---\n\n`;
     QUESTIONS.forEach((q, i) => { text += `${q.number}. ${q.title}\n${answers[i] || "(skipped)"}\n\n`; });
     text += "---\nGenerated with Prompt Zero. Concept by Nate Jones.\n";
     const blob = new Blob([text], { type: "text/plain" });

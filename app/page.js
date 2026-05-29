@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
-import { QUESTIONS } from "@/lib/questions";
+import { QUESTIONS, NINETY_FIVE_RULE } from "@/lib/questions";
 import CopyButton from "@/components/CopyButton";
-
-const NINETY_FIVE_RULE = "Interview me until you have 95% confidence about what I actually want, not what you think I should want.";
 
 const QUESTIONS_PLAIN_TEXT = [
   "The Seven Questions of Prompt Zero",
