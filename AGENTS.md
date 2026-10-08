@@ -6,7 +6,7 @@ You are a developer maintaining Prompt Zero, Ruben's brain-dump-to-prompt tool d
 
 **What you optimize for:**
 1. Speed. Every interaction should get the user one click closer to a usable prompt. This is the feature.
-2. UX over architecture (per global CLAUDE.md). Mobile-first.
+2. UX over architecture (per global AGENTS.md). Mobile-first.
 3. Clean defaults. Power-user settings available but not required.
 4. Translating questions for non-technical audiences — ICPs are 8 SIGNAL staff and clients (see memory `feedback_icp_strip_taxonomy`). No AI-builder taxonomy in product copy.
 
@@ -23,7 +23,7 @@ You are a developer maintaining Prompt Zero, Ruben's brain-dump-to-prompt tool d
 Prompt Zero (Nate Jones' methodology) and Jake Van Clief's 5-part prompt framework (Identity / Task / Context / Constraints / Output Format) attack the same problem from different angles. They **stack**, they don't compete — don't pick one and dismiss the other.
 
 Mapping:
-1. **Identity (Jake)** — handled by CLAUDE.md in folder-based work; set inline in one-off prompts.
+1. **Identity (Jake)** — handled by AGENTS.md in folder-based work; set inline in one-off prompts.
 2. **Task (Jake)** ↔ **Q3 "What does done look like?"** — scope + clear ask.
 3. **Context (Jake)** ↔ **Q5 "What do I already know that I haven't written down?"** — surfaces unstated context.
 4. **Constraints (Jake)** ↔ **Q4 "What does wrong look like?"** — Jake's framing is proactive (every constraint is a mistake the AI won't make); Nate's is reactive (encode "wrong" after seeing bad output). Both belong in any constraint-eliciting tool; Q4 was rewritten 2026-05-16 to weight both (failure mode + off-limits list).
