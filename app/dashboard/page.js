@@ -14,7 +14,7 @@ export default function Dashboard() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState(Array(7).fill(""));
-  const [showHint, setShowHint] = useState(false);
+  const [showHint, setShowHint] = useState(true);
   const [timerExpired, setTimerExpired] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
   const [threads, setThreads] = useState([]);
@@ -67,6 +67,7 @@ export default function Dashboard() {
   const startSession = useCallback(() => {
     setTimeLeft(timerDuration); setPhase("writing"); setIsRunning(true);
     setCurrentQ(0); setAnswers(Array(7).fill("")); setTimerExpired(false);
+    setShowHint(true);
     setSaveFeedback(""); autoSaved.current = false;
     currentDumpId.current = null;
   }, [timerDuration]);
@@ -76,21 +77,21 @@ export default function Dashboard() {
   };
 
   const goNext = () => {
-    setShowHint(false);
+    setShowHint(true);
     if (currentQ < 6) setCurrentQ((c) => c + 1);
     else { setPhase("review"); setIsRunning(false); clearInterval(intervalRef.current); }
   };
-  const goPrev = () => { setShowHint(false); if (currentQ > 0) setCurrentQ((c) => c - 1); };
+  const goPrev = () => { setShowHint(true); if (currentQ > 0) setCurrentQ((c) => c - 1); };
 
   const goToQuestion = (i) => {
-    setShowHint(false); setCurrentQ(i); setPhase("writing");
+    setShowHint(true); setCurrentQ(i); setPhase("writing");
     if (!isRunning) setIsRunning(true);
   };
 
   const resetAll = () => {
     setPhase("intro"); setIsRunning(false); setTimeLeft(timerDuration);
     setCurrentQ(0); setAnswers(Array(7).fill("")); setTimerExpired(false);
-    setShowHint(false); setSaveFeedback(""); clearInterval(intervalRef.current);
+    setShowHint(true); setSaveFeedback(""); clearInterval(intervalRef.current);
     autoSaved.current = false;
     currentDumpId.current = null;
   };
@@ -336,7 +337,7 @@ export default function Dashboard() {
             </div>
             <div className="flex justify-center gap-2 mt-3">
               {QUESTIONS.map((_, i) => (
-                <button key={i} onClick={() => { setCurrentQ(i); setShowHint(false); }}
+                <button key={i} onClick={() => { setCurrentQ(i); setShowHint(true); }}
                   className={`w-7 h-7 rounded-full text-xs font-mono flex items-center justify-center transition-all ${
                     i === currentQ
                       ? answers[i].trim() ? "bg-warm-900 text-parchment border-2 border-warm-900" : "bg-parchment text-warm-900 border-2 border-warm-900"
